@@ -1,0 +1,41 @@
+name: Build and Deploy
+
+# 触发条件：当你向 main 分支推送 src 里的代码时
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'package.json'
+      - 'vite.config.ts'
+
+# 给机器人开放写入权限，否则它无法将打好的包塞回仓库
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Commit and push dist
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: 'dist --force'
+          # 注意：[skip ci] 是魔法指令，防止机器人提交代码后再次触发自己，导致无限死循环
+          message: 'chore: auto build [skip ci]'
+          default_author: github_actions
