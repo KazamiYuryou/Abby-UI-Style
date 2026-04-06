@@ -16,11 +16,14 @@
 }
 
 /* iframe 内部基础重置 */
+/* 
+会导致全局样式污染 
 html, body { margin: 0; padding: 0; background: transparent; width: 100%; }
 body { 
   padding: 8px; box-sizing: border-box; overflow-x: hidden; 
   font-family: 'Noto Serif SC', 'Microsoft YaHei', serif; color: #f0f4f8; 
 }
+*/
 
 /* ==========================================
    02. 核心容器与布局层
@@ -30,6 +33,10 @@ body {
   position: relative; width: 100%; max-width: 1160px; margin: 8px auto; 
   border-radius: 6px; z-index: 10; overflow: visible; box-sizing: border-box; isolation: isolate; 
   border: none; outline: none; box-shadow: 0 0 18px rgba(100,140,220,0.28); 
+   
+   /* ✅ 新增：把刚才删掉的字体和颜色锁在这个容器里 */
+  font-family: 'Noto Serif SC', 'Microsoft YaHei', serif; 
+  color: #f0f4f8;
 }
 .abby-yog-container::before, .abby-yog-container::after { content: ''; position: absolute; pointer-events: none; border-radius: inherit; z-index: 11; }
 .abby-yog-container::before { inset: 0; border: 2px solid rgba(168,192,255,0.88); box-shadow: 0 0 12px rgba(100,140,220,0.35); }
